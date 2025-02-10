@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: banco_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password  # Senha do usuário root
+      MYSQL_DATABASE: tcc  # Nome do banco de dados
+    ports:
+      - "3306:3306"  # Mapeando a porta do container para a porta local
+    volumes:
+      - mysql_data:/var/lib/mysql  # Persistindo os dados em um volume Docker
+    networks:
+      - mysql_network
+
+volumes:
+  mysql_data:
+
+networks:
+  mysql_network:
+    driver: bridge
