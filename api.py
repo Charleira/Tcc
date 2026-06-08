@@ -13,6 +13,7 @@ from fastapi import FastAPI, HTTPException, Query
 from pydantic import BaseModel
 from newspaper import Article
 from textblob import TextBlob
+from fastapi.middleware.cors import CORSMiddleware
 
 # ----- Configs -----
 API_KEY = os.getenv("FINNHUB_API_KEY", "cul25nhr01qqav2uqppgcul25nhr01qqav2uqpq0")
@@ -166,6 +167,19 @@ model.eval()
 
 # ======== FASTAPI ========
 app = FastAPI(title="Stock Forecast API", version="1.0.0")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:8081",
+        "http://localhost:19006",
+        "http://127.0.0.1:8081",
+        "http://127.0.0.1:19006",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class PredictRequest(BaseModel):
     ticker: str
